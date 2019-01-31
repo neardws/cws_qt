@@ -1,0 +1,13 @@
+INPUT(
+./debug\NtpClient.o
+./debug\NtpReply.o
+./debug\main.o
+./debug\mainwindow.o
+./debug\myudp.o
+./debug\dataprocessthread.o
+./debug\qrc_image.o
+./debug\moc_NtpClient.o
+./debug\moc_mainwindow.o
+./debug\moc_myudp.o
+./debug\moc_dataprocessthread.o
+);

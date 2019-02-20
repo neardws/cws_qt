@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
         myudp = new MyUDP;
     }
 
-    m_client = new NtpClient(this);
-    connect(m_client, SIGNAL(replyReceived(QHostAddress,quint16,NtpReply,QJsonObject)), this, SLOT(onReplyReceived(QHostAddress,quint16,NtpReply,QJsonObject)));
+//    m_client = new NtpClient(this);
+//    connect(m_client, SIGNAL(replyReceived(QHostAddress,quint16,NtpReply,QJsonObject)), this, SLOT(onReplyReceived(QHostAddress,quint16,NtpReply,QJsonObject)));
 
     connect(ui->but_start, SIGNAL(clicked()), this, SLOT(on_but_start_clicked()));
     connect(this, SIGNAL(newLogInfo(QString)), this, SLOT(showLog(QString)));
@@ -157,8 +157,9 @@ void MainWindow::on_but_start_clicked()
             ui->but_start->setText("Stop");
 
             //绑定接收到消息的槽函数
-            connect(myudp, SIGNAL(newMessage(QString, QJsonObject)), this, SLOT(getNtpTime(QString, QJsonObject)));
-
+//            connect(myudp, SIGNAL(newMessage(QString, QJsonObject)), this, SLOT(getNtpTime(QString, QJsonObject)));
+            connect(myudp, SIGNAL(newLogInfo(QString)), this, SLOT(showLog(QString)));
+            connect(myudp, SIGNAL(newMessageToDB(QJsonObject,long long&)), this, SLOT(addMessageToDB(QJsonObject,long long&)));
             connect(myudp, SIGNAL(newMessage(QString, QJsonObject)), this, SLOT(onUdpAppendMessage(QString, QJsonObject)));
         } else{
             ui->textLog->append(messageUDP + "Failed to listen to:"
@@ -180,8 +181,9 @@ void MainWindow::onUdpStopButtonClicked(){
         addLogToDB(messageUDP+ "Stoped.");
         //解除槽函数绑定
         disconnect(myudp, SIGNAL(newMessage(QString, QJsonObject)), this, SLOT(onUdpAppendMessage(QString, QJsonObject)));
-        disconnect(myudp, SIGNAL(newMessage(QString, QJsonObject)), this, SLOT(getNtpTime(QString,QJsonObject)));
-
+        //disconnect(myudp, SIGNAL(newMessage(QString, QJsonObject)), this, SLOT(getNtpTime(QString,QJsonObject)));
+        disconnect(myudp, SIGNAL(newLogInfo(QString)), this, SLOT(showLog(QString)));
+        disconnect(myudp, SIGNAL(newMessageToDB(QJsonObject,long long&)), this, SLOT(addMessageToDB(QJsonObject,long long&)));
         ui->but_start->setText("Start");
         myudp->unbindPort();
         //重新绑定槽函数
@@ -226,6 +228,7 @@ void MainWindow::on_pushButton_clicked(){
         ui->pushButton->setText("Stop");
         connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_Stop_clicked()));
         connect(processThread, SIGNAL(newLogInfo(QString)), this, SLOT(showLog(QString)));
+
         /***在地图上标点*******/
         connect(processThread, SIGNAL(newVehicleOne(double,double)), this, SLOT(setCarOneNowPosition(double,double)));
         connect(processThread, SIGNAL(newVehicleTwo(double,double)), this, SLOT(setCarTwoNowPosition(double,double)));
@@ -533,31 +536,22 @@ void MainWindow::showLog(const QString &logInfo){
     ui->textLog->append(message);
 }
 
-int i = 0;
-bool MainWindow::getNtpTime(const QString &from, const QJsonObject &message){
-//    long long nowTime = getTimeStamp();
+//bool MainWindow::getNtpTime(const QString &from, const QJsonObject &message){
+//    m_client->sendRequest(QHostAddress("120.25.108.11"), 123, message);
+//}
+
+//void MainWindow::onReplyReceived(QHostAddress host, quint16 port, NtpReply reply, QJsonObject message)
+//{
+////    long long offsettime = ((reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch())-(reply.transmitTime().currentMSecsSinceEpoch()-reply.receiveTime().currentMSecsSinceEpoch())) /2;
+////    long long nowTime = reply.transmitTime().currentMSecsSinceEpoch()+reply.localClockOffset()-reply.referenceTime().currentMSecsSinceEpoch();
+//    long long nowTime = reply.transmitTime().currentMSecsSinceEpoch()+reply.localClockOffset()-(reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch());
 //    addMessageToDB(message, nowTime);
-    m_client->sendRequest(QHostAddress("120.25.108.11"), 123, message);
-
-//    i = i + 1;
-//    if(i == 25){
-//        m_client->sendRequest(QHostAddress("120.25.108.11"), 123, message);
-//        i = 0;
-//    }
-}
-
-void MainWindow::onReplyReceived(QHostAddress host, quint16 port, NtpReply reply, QJsonObject message)
-{
-//    long long offsettime = ((reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch())-(reply.transmitTime().currentMSecsSinceEpoch()-reply.receiveTime().currentMSecsSinceEpoch())) /2;
-//    long long nowTime = reply.transmitTime().currentMSecsSinceEpoch()+reply.localClockOffset()-reply.referenceTime().currentMSecsSinceEpoch();
-    long long nowTime = reply.transmitTime().currentMSecsSinceEpoch()+reply.localClockOffset()-(reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch());
-    addMessageToDB(message, nowTime);
-//    emit newLogInfo(reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch());
-//    emit newLogInfo(QString::number(reply.destinationTime().currentMSecsSinceEpoch()));
-//    emit newLogInfo(QString::number(reply.originTime().currentMSecsSinceEpoch()));
-//    emit newLogInfo(QString::number(reply.receiveTime().currentMSecsSinceEpoch()));
-//    emit newLogInfo(QString::number(reply.transmitTime().currentMSecsSinceEpoch()));
-}
+////    emit newLogInfo(reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch());
+////    emit newLogInfo(QString::number(reply.destinationTime().currentMSecsSinceEpoch()));
+////    emit newLogInfo(QString::number(reply.originTime().currentMSecsSinceEpoch()));
+////    emit newLogInfo(QString::number(reply.receiveTime().currentMSecsSinceEpoch()));
+////    emit newLogInfo(QString::number(reply.transmitTime().currentMSecsSinceEpoch()));
+//}
 
 /*****************************
  * 数据库存入部分reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch()

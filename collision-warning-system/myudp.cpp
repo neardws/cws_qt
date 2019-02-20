@@ -27,6 +27,8 @@ bool MyUDP::bindPort(QHostAddress addr, qint16 port)
         //connect函数， 接收到readyRead() 信号， 使用槽函数 readyRead()进行处理
         //connect(发送端，信号，接收端，槽函数)
         connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+        m_client = new NtpClient(this);
+        connect(m_client, SIGNAL(replyReceived(QHostAddress,quint16,NtpReply,QJsonObject)), this, SLOT(onReplyReceived(QHostAddress,quint16,NtpReply,QJsonObject)));
     }
     return isBinded;
 }
@@ -68,7 +70,7 @@ void MyUDP::readyRead()
                          &sender, &senderPort);
 
     QJsonObject message = QJsonDocument::fromJson(buffer).object();
-
+    getNtpTime(message);
     //发送新消息信号
     emit newMessage(sender.toString(),  message);
 }
@@ -79,5 +81,17 @@ void MyUDP::readyRead()
 void MyUDP::unbindPort()
 {
     disconnect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));  //关闭连接
+    disconnect(m_client, SIGNAL(replyReceived(QHostAddress,quint16,NtpReply,QJsonObject)), this, SLOT(onReplyReceived(QHostAddress,quint16,NtpReply,QJsonObject)));
     socket->close();  //关闭socket
 }
+
+bool MyUDP::getNtpTime(const QJsonObject &message){
+    m_client->sendRequest(QHostAddress("120.25.108.11"), 123, message);
+}
+
+void MyUDP::onReplyReceived(QHostAddress host, quint16 port, NtpReply reply, QJsonObject message)
+{
+    long long nowTime = reply.transmitTime().currentMSecsSinceEpoch()+reply.localClockOffset()-(reply.destinationTime().currentMSecsSinceEpoch()-reply.originTime().currentMSecsSinceEpoch());
+    emit newMessageToDB(message, nowTime);
+}
+

@@ -13,9 +13,7 @@
 #include<QTextStream>
 #include "myudp.h"
 #include "dataprocessthread.h"
-#include "qntp/QNtp.h"
-#include "qntp/NtpClient.h"
-#include "qntp/NtpReply.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -52,8 +50,8 @@ private slots:
     bool addLogToDB(const QString &logInfo);
     bool addResultToDB(const QJsonObject &result, bool sended);
 
-    void onReplyReceived(QHostAddress host, quint16 port, NtpReply reply, QJsonObject message);
-    bool getNtpTime(const QString &from, const QJsonObject &message);
+//    void onReplyReceived(QHostAddress host, quint16 port, NtpReply reply, QJsonObject message);
+//    bool getNtpTime(const QString &from, const QJsonObject &message);
 
     /***********************************
      * 获得本机时间戳
@@ -100,7 +98,7 @@ private:
     Ui::MainWindow *ui;
     //对UI进行初始化，主要对IP地址等进行约束
 
-    NtpClient * m_client;
+//    NtpClient * m_client;
 
     QAxObject * document;
     QAxObject * parentWindow;

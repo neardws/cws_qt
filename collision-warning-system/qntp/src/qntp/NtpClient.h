@@ -60,7 +60,7 @@ public:
    * @param port                     NTP server port.
    * @returns                        Whether the NTP request was successfully sent.
    */
-  bool sendRequest(const QHostAddress &address, quint16 port, const QJsonObject &message);
+  bool sendRequest(const QHostAddress &address, quint16 port, const QJsonObject &message, const long long &sendTime);
 
 Q_SIGNALS:
   /**
@@ -70,7 +70,7 @@ Q_SIGNALS:
    * @param port                     Port of the server that sent this reply.
    * @param reply                    NTP reply.
    */
-  void replyReceived(const QHostAddress &address, quint16 port, const NtpReply &reply, const QJsonObject &message);
+  void replyReceived(const QHostAddress &address, quint16 port, const NtpReply &reply, const QJsonObject &message, const long long &sendT);
 
 private Q_SLOTS:
   void readPendingDatagrams();
@@ -78,6 +78,7 @@ private Q_SLOTS:
 private:
   void init(const QHostAddress &bindAddress, quint16 bindPort);
   QJsonObject message;
+  long long sendTime;
   QUdpSocket *mSocket;
 };
 

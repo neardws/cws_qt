@@ -40,8 +40,9 @@ NtpClient::~NtpClient() {
   return;
 }
 
-bool NtpClient::sendRequest(const QHostAddress &address, quint16 port, const QJsonObject &message) {
+bool NtpClient::sendRequest(const QHostAddress &address, quint16 port, const QJsonObject &message, const long long &sendTime) {
   this->message = message;
+  this->sendTime = sendTime;
   if(mSocket->state() != QAbstractSocket::BoundState)
     return false;
 
@@ -82,7 +83,7 @@ void NtpClient::readPendingDatagrams() {
 //    qDebug() << reply.originTime();
 
     /* Notify. */
-    Q_EMIT replyReceived(address, port, reply, message);
+    Q_EMIT replyReceived(address, port, reply, message, sendTime);
   }
 }
 

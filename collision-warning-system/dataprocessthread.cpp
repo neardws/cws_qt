@@ -207,7 +207,7 @@ QList<QJsonObject> DataProcessThread::isComputed(){
     int sizeOne = queueVehicleOne.size();
     int sizeTwo = queueVehicleTwo.size();
     if(sizeOne >= 1 && sizeTwo >= 1){
-        emit newLogInfo("队列各出队一个");
+        //emit newLogInfo("队列各出队一个");
         //车辆一的队列出队1个
         jsonArray.append(queueVehicleOne.dequeue());
         //车辆二的队列出队1个
@@ -227,7 +227,7 @@ void DataProcessThread::timeOutSlot(){
     QList<QJsonObject> jsonArray = isComputed();
     QString message = "队列中的个数：";
     message.append(QString::number(jsonArray.size()));
-    emit newLogInfo(message);
+    //emit newLogInfo(message);
     if(2 == jsonArray.size()){
         emit newComputable(jsonArray);
     }
@@ -282,7 +282,7 @@ void DataProcessThread::computerResult(const QList<QJsonObject> &messages){
     /*************************************
      * 预测第i秒点的位置并进行评估
      * ***********************************/
-    emit newLogInfo("预测开始");
+    //emit newLogInfo("Start");
 
     resultOne.insert("id", id1);
     resultOne.insert("type",TYPE_RESULT);
@@ -325,7 +325,7 @@ void DataProcessThread::computerResult(const QList<QJsonObject> &messages){
         addResultToDB(resultOne, false);
         addResultToDB(resultTwo, false);
 
-        emit newLogInfo("预测结束：会碰撞");
+        emit newLogInfo("Result： Collision will happen.");
         return;
     }
 
@@ -351,7 +351,7 @@ void DataProcessThread::computerResult(const QList<QJsonObject> &messages){
             addResultToDB(resultOne, false);
             addResultToDB(resultTwo, false);
 
-            emit newLogInfo("预测结束：会碰撞");
+            emit newLogInfo("Result： Collision will happen.");
             return;
 
         }
@@ -371,7 +371,7 @@ void DataProcessThread::computerResult(const QList<QJsonObject> &messages){
     addResultToDB(resultOne, false);
     addResultToDB(resultTwo, false);
 
-    emit newLogInfo("预测结束：不会碰撞");
+    emit newLogInfo("Result： Collision will not happen.");
 
 }
 
@@ -1139,10 +1139,10 @@ bool DataProcessThread::addResultToDB(const QJsonObject &result, bool sended){
     query.bindValue(":sendStamp", sendStamp);
     query.bindValue(":sended", sended);
     if(!query.exec()){
-        emit newLogInfo("插入Result表失败"+ query.lastError().text());
+        emit newLogInfo("Insert Result table failed."+ query.lastError().text());
         return false;
     } else {
-        emit newLogInfo("插入Result表成功");
+        emit newLogInfo("Insert Result table success.");
         return true;
     }
 }

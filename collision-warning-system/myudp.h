@@ -38,13 +38,14 @@ class MyUDP : public QUdpSocket
     //sender是Host地址，senderPort是接收端的端口号，string是发送的内容
     void sendMessage(QHostAddress sender, quint16 senderPort, QJsonObject result);
 
-    void onReplyReceived(QHostAddress host, quint16 port, NtpReply reply, QJsonObject message);
-    bool getNtpTime(const QJsonObject &message);
+    void onReplyReceived(QHostAddress host, quint16 port, NtpReply reply, QJsonObject message, long long sendTime);
+    bool getNtpTime(const QJsonObject &message, const long long &nowTime);
 
   private:
     //使用QUdpSocket 进行发送接收
     QUdpSocket *socket;
     NtpClient * m_client;
+    int i;
 };
 
 #endif // MYUDP_H

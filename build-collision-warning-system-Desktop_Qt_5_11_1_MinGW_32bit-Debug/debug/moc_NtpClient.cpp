@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NtpClient_t {
-    QByteArrayData data[10];
-    char stringdata0[95];
+    QByteArrayData data[11];
+    char stringdata0[101];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,12 +40,13 @@ QT_MOC_LITERAL(5, 46, 4), // "port"
 QT_MOC_LITERAL(6, 51, 8), // "NtpReply"
 QT_MOC_LITERAL(7, 60, 5), // "reply"
 QT_MOC_LITERAL(8, 66, 7), // "message"
-QT_MOC_LITERAL(9, 74, 20) // "readPendingDatagrams"
+QT_MOC_LITERAL(9, 74, 5), // "sendT"
+QT_MOC_LITERAL(10, 80, 20) // "readPendingDatagrams"
 
     },
     "NtpClient\0replyReceived\0\0QHostAddress\0"
     "address\0port\0NtpReply\0reply\0message\0"
-    "readPendingDatagrams"
+    "sendT\0readPendingDatagrams"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,13 +64,13 @@ static const uint qt_meta_data_NtpClient[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    4,   24,    2, 0x06 /* Public */,
+       1,    5,   24,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       9,    0,   33,    2, 0x08 /* Private */,
+      10,    0,   35,    2, 0x08 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, 0x80000000 | 3, QMetaType::UShort, 0x80000000 | 6, QMetaType::QJsonObject,    4,    5,    7,    8,
+    QMetaType::Void, 0x80000000 | 3, QMetaType::UShort, 0x80000000 | 6, QMetaType::QJsonObject, QMetaType::LongLong,    4,    5,    7,    8,    9,
 
  // slots: parameters
     QMetaType::Void,
@@ -83,14 +84,14 @@ void NtpClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         NtpClient *_t = static_cast<NtpClient *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->replyReceived((*reinterpret_cast< const QHostAddress(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])),(*reinterpret_cast< const NtpReply(*)>(_a[3])),(*reinterpret_cast< const QJsonObject(*)>(_a[4]))); break;
+        case 0: _t->replyReceived((*reinterpret_cast< const QHostAddress(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])),(*reinterpret_cast< const NtpReply(*)>(_a[3])),(*reinterpret_cast< const QJsonObject(*)>(_a[4])),(*reinterpret_cast< const long long(*)>(_a[5]))); break;
         case 1: _t->readPendingDatagrams(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (NtpClient::*)(const QHostAddress & , quint16 , const NtpReply & , const QJsonObject & );
+            using _t = void (NtpClient::*)(const QHostAddress & , quint16 , const NtpReply & , const QJsonObject & , const long long & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&NtpClient::replyReceived)) {
                 *result = 0;
                 return;
@@ -136,9 +137,9 @@ int NtpClient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void NtpClient::replyReceived(const QHostAddress & _t1, quint16 _t2, const NtpReply & _t3, const QJsonObject & _t4)
+void NtpClient::replyReceived(const QHostAddress & _t1, quint16 _t2, const NtpReply & _t3, const QJsonObject & _t4, const long long & _t5)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)), const_cast<void*>(reinterpret_cast<const void*>(&_t4)) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)), const_cast<void*>(reinterpret_cast<const void*>(&_t4)), const_cast<void*>(reinterpret_cast<const void*>(&_t5)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP

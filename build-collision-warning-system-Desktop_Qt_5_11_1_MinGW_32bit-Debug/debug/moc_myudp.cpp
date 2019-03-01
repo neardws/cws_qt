@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MyUDP_t {
-    QByteArrayData data[22];
-    char stringdata0[202];
+    QByteArrayData data[24];
+    char stringdata0[219];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -52,7 +52,9 @@ QT_MOC_LITERAL(17, 166, 4), // "host"
 QT_MOC_LITERAL(18, 171, 4), // "port"
 QT_MOC_LITERAL(19, 176, 8), // "NtpReply"
 QT_MOC_LITERAL(20, 185, 5), // "reply"
-QT_MOC_LITERAL(21, 191, 10) // "getNtpTime"
+QT_MOC_LITERAL(21, 191, 8), // "sendTime"
+QT_MOC_LITERAL(22, 200, 10), // "getNtpTime"
+QT_MOC_LITERAL(23, 211, 7) // "nowTime"
 
     },
     "MyUDP\0newMessage\0\0from\0message\0"
@@ -60,7 +62,8 @@ QT_MOC_LITERAL(21, 191, 10) // "getNtpTime"
     "long long&\0receiverStamp\0readyRead\0"
     "sendMessage\0QHostAddress\0sender\0"
     "senderPort\0result\0onReplyReceived\0"
-    "host\0port\0NtpReply\0reply\0getNtpTime"
+    "host\0port\0NtpReply\0reply\0sendTime\0"
+    "getNtpTime\0nowTime"
 };
 #undef QT_MOC_LITERAL
 
@@ -85,8 +88,8 @@ static const uint qt_meta_data_MyUDP[] = {
  // slots: name, argc, parameters, tag, flags
       10,    0,   62,    2, 0x0a /* Public */,
       11,    3,   63,    2, 0x0a /* Public */,
-      16,    4,   70,    2, 0x0a /* Public */,
-      21,    1,   79,    2, 0x0a /* Public */,
+      16,    5,   70,    2, 0x0a /* Public */,
+      22,    2,   81,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, QMetaType::QJsonObject,    3,    4,
@@ -96,8 +99,8 @@ static const uint qt_meta_data_MyUDP[] = {
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 12, QMetaType::UShort, QMetaType::QJsonObject,   13,   14,   15,
-    QMetaType::Void, 0x80000000 | 12, QMetaType::UShort, 0x80000000 | 19, QMetaType::QJsonObject,   17,   18,   20,    4,
-    QMetaType::Bool, QMetaType::QJsonObject,    4,
+    QMetaType::Void, 0x80000000 | 12, QMetaType::UShort, 0x80000000 | 19, QMetaType::QJsonObject, QMetaType::LongLong,   17,   18,   20,    4,   21,
+    QMetaType::Bool, QMetaType::QJsonObject, QMetaType::LongLong,    4,   23,
 
        0        // eod
 };
@@ -113,8 +116,8 @@ void MyUDP::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         case 2: _t->newMessageToDB((*reinterpret_cast< const QJsonObject(*)>(_a[1])),(*reinterpret_cast< long long(*)>(_a[2]))); break;
         case 3: _t->readyRead(); break;
         case 4: _t->sendMessage((*reinterpret_cast< QHostAddress(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])),(*reinterpret_cast< QJsonObject(*)>(_a[3]))); break;
-        case 5: _t->onReplyReceived((*reinterpret_cast< QHostAddress(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])),(*reinterpret_cast< NtpReply(*)>(_a[3])),(*reinterpret_cast< QJsonObject(*)>(_a[4]))); break;
-        case 6: { bool _r = _t->getNtpTime((*reinterpret_cast< const QJsonObject(*)>(_a[1])));
+        case 5: _t->onReplyReceived((*reinterpret_cast< QHostAddress(*)>(_a[1])),(*reinterpret_cast< quint16(*)>(_a[2])),(*reinterpret_cast< NtpReply(*)>(_a[3])),(*reinterpret_cast< QJsonObject(*)>(_a[4])),(*reinterpret_cast< long long(*)>(_a[5]))); break;
+        case 6: { bool _r = _t->getNtpTime((*reinterpret_cast< const QJsonObject(*)>(_a[1])),(*reinterpret_cast< const long long(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
